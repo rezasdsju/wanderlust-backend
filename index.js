@@ -32,9 +32,9 @@ app.get('/destinations', async (req, res) => {
         res.status(500).send({ 'message': 'Failed to fetch destinations' })
     }
 })
-app.get('/destinations/:id',async(req,res)=>{
-    const {id} = req.params
-    const query = {_id: new ObjectId(id)}
+app.get('/destinations/:id', async (req, res) => {
+    const { id } = req.params
+    const query = { _id: new ObjectId(id) }
     const result = await destinationCollections.findOne(query)
     res.send(result)
 })
@@ -45,7 +45,17 @@ app.post('/destinations', async (req, res) => {
     const result = await destinationCollections.insertOne(newDestination)
     res.send(result)
 })
-
+app.patch('/destinations/:id', async (req, res) => {
+    const { id } = req.params
+    const filter = { _id: new ObjectId(id) }
+    // const options = { upsert: true }
+    const updatedDestination = req.body
+    const updateDoc = {
+        $set:updatedDestination
+    }
+    const result = await destinationCollections.updateOne(filter, updateDoc);
+    res.send(result)
+})
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
 })
