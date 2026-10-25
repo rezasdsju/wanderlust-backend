@@ -56,6 +56,12 @@ app.patch('/destinations/:id', async (req, res) => {
     const result = await destinationCollections.updateOne(filter, updateDoc);
     res.send(result)
 })
+app.delete('/destinations/:id', async(req,res)=>{
+    const {id} = req.params
+    const query = {_id: new ObjectId(id)}
+    const result = await destinationCollections.deleteOne(query)
+    res.send(result)
+})
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
 })
