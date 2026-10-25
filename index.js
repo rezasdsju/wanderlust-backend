@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 const app = express()
 app.use(cors())
 app.use(express.json())
@@ -31,6 +31,12 @@ app.get('/destinations', async (req, res) => {
         console.error(error)
         res.status(500).send({ 'message': 'Failed to fetch destinations' })
     }
+})
+app.get('/destinations/:id',async(req,res)=>{
+    const {id} = req.params
+    const query = {_id: new ObjectId(id)}
+    const result = await destinationCollections.findOne(query)
+    res.send(result)
 })
 
 app.post('/destinations', async (req, res) => {
