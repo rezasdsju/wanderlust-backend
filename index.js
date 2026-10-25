@@ -18,4 +18,18 @@ export async function connectToMongoDB() {
     console.dir(err);
   }
 }
-await connectToMongoDB()
+const mongoConnection = await connectToMongoDB()
+const db = mongoConnection.db('wanderlust_main')
+const destinationCollections = db.collection('destinations')
+
+
+app.post('/destinations',async(req,res)=>{
+    // console.log(req.body)
+    const newDestination = req.body
+    const result = await destinationCollections.insertOne(newDestination)
+    res.send(result)
+})
+
+app.listen(port,()=>{
+    console.log(`Server is running on port ${port}`)
+})
