@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { request } from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import { MongoClient, ObjectId } from 'mongodb';
@@ -72,6 +72,11 @@ app.post('/booking',async(req,res)=>{
 app.get('/my-bookings/:email', async(req,res)=>{
     const {email:emailFromClient} = req.params
     const result = await bookingCollections.find({email:emailFromClient}).toArray()
+    res.send(result)
+})
+app.delete('/my-bookings/:id', async(req,res)=>{
+    const {id} = req.params
+    const result = await bookingCollections.deleteOne({_id:id})
     res.send(result)
 })
 app.listen(port, () => {
