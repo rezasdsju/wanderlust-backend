@@ -18,3 +18,4 @@ Backend service for the Wanderlust tour booking platform, built with Node.js and
 | POST   | /destinations     | Add a new destination    |
 | PATCH  | /destinations/:id | Update a destination     |
 | DELETE | /destinations/:id | Delete a destination     |
+| POST   | /booking/         | Book a destination       |
