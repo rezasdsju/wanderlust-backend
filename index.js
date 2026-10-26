@@ -21,7 +21,7 @@ export async function connectToMongoDB() {
 const mongoConnection = await connectToMongoDB()
 const db = mongoConnection.db('wanderlust_main')
 const destinationCollections = db.collection('destinations')
-
+const bookingCollections = db.collection('bookings')
 
 app.get('/destinations', async (req, res) => {
     try {
@@ -62,6 +62,14 @@ app.delete('/destinations/:id', async(req,res)=>{
     const result = await destinationCollections.deleteOne(query)
     res.send(result)
 })
+
+
+app.post('/booking',async(req,res)=>{
+    const data = req.body
+    const result = await bookingCollections.insertOne(data)
+    res.send(result)
+})
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
 })
