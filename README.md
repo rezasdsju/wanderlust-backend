@@ -20,3 +20,4 @@ Backend service for the Wanderlust tour booking platform, built with Node.js and
 | DELETE | `/destinations/:id`  | Delete a destination          |
 | POST   | `/booking`           | Create a destination booking  |
 | GET    | `/my-bookings/:email`| Get bookings by email         |
+| DELETE | `/my-bookings/:id`   | Get bookings by email         |
