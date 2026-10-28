@@ -23,6 +23,14 @@ const db = mongoConnection.db('wanderlust_main')
 const destinationCollections = db.collection('destinations')
 const bookingCollections = db.collection('bookings')
 
+const verifyApi = (req,res,next)=>{
+    const authHeader = req.headers.authorization
+    if (authHeader!=='User Logged In'){
+        return res.status(401).send({msg:'Unauthorizad'})
+    }
+    next()
+}
+
 app.get('/destinations', async (req, res) => {
     try {
         const destinations = await destinationCollections.find({}).toArray()
@@ -32,7 +40,7 @@ app.get('/destinations', async (req, res) => {
         res.status(500).send({ 'message': 'Failed to fetch destinations' })
     }
 })
-app.get('/destinations/:id', async (req, res) => {
+app.get('/destinations/:id',verifyApi, async (req, res) => {
     const { id } = req.params
     const query = { _id: new ObjectId(id) }
     const result = await destinationCollections.findOne(query)
