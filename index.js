@@ -47,6 +47,60 @@ const verifyToken = async (req, res, next) => {
     }
 }
 
+
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Wanderlust API is running successfully.',
+        endpoints: {
+            destinations: {
+                method: 'GET',
+                path: '/destinations',
+                protected: false
+            },
+            featuredDestinations: {
+                method: 'GET',
+                path: '/featured-destinations',
+                protected: false
+            },
+            destinationDetails: {
+                method: 'GET',
+                path: '/destinations/:id',
+                protected: true
+            },
+            createDestination: {
+                method: 'POST',
+                path: '/destinations',
+                protected: true
+            },
+            updateDestination: {
+                method: 'PATCH',
+                path: '/destinations/:id',
+                protected: true
+            },
+            deleteDestination: {
+                method: 'DELETE',
+                path: '/destinations/:id',
+                protected: true
+            },
+            createBooking: {
+                method: 'POST',
+                path: '/booking',
+                protected: true
+            },
+            myBookings: {
+                method: 'GET',
+                path: '/my-bookings/:email',
+                protected: true
+            },
+            cancelBooking: {
+                method: 'DELETE',
+                path: '/my-bookings/:id',
+                protected: true
+            }
+        }
+    })
+})
+
 app.get('/destinations', async (req, res) => {
     try {
         const destinations = await destinationCollections.find({}).toArray()
