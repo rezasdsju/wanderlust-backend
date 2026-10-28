@@ -5,6 +5,7 @@ Backend service for the Wanderlust tour booking platform, built with Node.js and
 ## Features
 
 - Manage travel packages: create, read, update and delete destinations
+- Admin-only authorization for creating travel destinations
 - Create and cancel tour bookings
 - View bookings by user email
 - JWT verification via Better Auth JWKS on protected destination and booking endpoints, including creation, update, deletion, and booking retrieval.
