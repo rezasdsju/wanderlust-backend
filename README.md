@@ -20,18 +20,17 @@ Backend service for the Wanderlust tour booking platform, built with Node.js and
 
 ## API Endpoints
 
-| Method | Endpoint              | Description                | Auth |
-| ------ | --------------------- | -------------------------- | ---- |
-| GET    | `/destinations`       | Get all destinations       | No   |
-| GET    | `/destinations/:id`   | Get a single destination   | Bearer JWT |
-| POST   | `/destinations`       | Add a new destination      | No   |
-| PATCH  | `/destinations/:id`   | Update a destination       | No   |
-| DELETE | `/destinations/:id`   | Delete a destination       | No   |
-| POST   | `/booking`            | Create a booking           | No   |
-| GET    | `/my-bookings/:email` | Get bookings by email      | No   |
-| DELETE | `/my-bookings/:id`    | Cancel a booking           | No   |
-
-> Authentication on the remaining routes is in progress.
+| Method | Endpoint | Description | Auth |
+| ------ | -------- | ----------- | ---- |
+| GET | `/destinations` | Get all destinations | No |
+| GET | `/featured-destinations` | Get up to 5 featured destinations | No |
+| GET | `/destinations/:id` | Get a single destination | Bearer JWT |
+| POST | `/destinations` | Add a new destination | Bearer JWT |
+| PATCH | `/destinations/:id` | Update a destination | Bearer JWT |
+| DELETE | `/destinations/:id` | Delete a destination | Bearer JWT |
+| POST | `/booking` | Create a booking | Bearer JWT |
+| GET | `/my-bookings/:email` | Get bookings by email | Bearer JWT |
+| DELETE | `/my-bookings/:id` | Cancel a booking | Bearer JWT |
 
 ## Environment Variables
 
