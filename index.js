@@ -40,12 +40,48 @@ const verifyToken = async (req, res, next) => {
     )
     try {
         const { payload } = await jwtVerify(token, JWKS)
+        req.authUserId = payload.sub
+
         next()
     } catch {
         console.error(error.message)
         return res.status(401).send({ message: 'Invalid or expired token' })
     }
 }
+
+const usersCollection = db.collection('user')
+
+const verifyAdmin = async (req, res, next) => {
+    try {
+        const userId = req.authUserId;
+
+        const userQuery = [
+            { id: userId },
+            { _id: userId }
+        ];
+
+        if (ObjectId.isValid(userId)) {
+            userQuery.push({ _id: new ObjectId(userId) });
+        }
+
+        const user = await usersCollection.findOne({
+            $or: userQuery
+        });
+
+        if (!user || user.role !== 'admin') {
+            return res.status(403).send({
+                message: 'Forbidden: Admin access required'
+            });
+        }
+
+        next();
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            message: 'Failed to verify admin role'
+        });
+    }
+};
 
 
 app.get('/', (req, res) => {
@@ -126,13 +162,13 @@ app.get('/destinations/:id', verifyToken, async (req, res) => {
     res.send(result)
 })
 
-app.post('/destinations',verifyToken, async (req, res) => {
+app.post('/destinations',verifyToken,verifyAdmin, async (req, res) => {
     // console.log(req.body)
     const newDestination = req.body
     const result = await destinationCollections.insertOne(newDestination)
     res.send(result)
 })
-app.patch('/destinations/:id',verifyToken, async (req, res) => {
+app.patch('/destinations/:id',verifyToken,verifyAdmin, async (req, res) => {
     const { id } = req.params
     const filter = { _id: new ObjectId(id) }
     // const options = { upsert: true }
@@ -143,7 +179,7 @@ app.patch('/destinations/:id',verifyToken, async (req, res) => {
     const result = await destinationCollections.updateOne(filter, updateDoc);
     res.send(result)
 })
-app.delete('/destinations/:id',verifyToken, async (req, res) => {
+app.delete('/destinations/:id',verifyToken,verifyAdmin, async (req, res) => {
     const { id } = req.params
     const query = { _id: new ObjectId(id) }
     const result = await destinationCollections.deleteOne(query)
