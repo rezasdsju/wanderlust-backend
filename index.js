@@ -56,6 +56,15 @@ app.get('/destinations', async (req, res) => {
         res.status(500).send({ 'message': 'Failed to fetch destinations' })
     }
 })
+app.get('/featured-destinations',async(req,res)=>{
+    try {
+        const featuredDestinations = await destinationCollections.find().limit(5).toArray()
+        res.send(featuredDestinations)
+    } catch(error) {
+        console.log(error)
+        res.status(500).send({'message':'Failed to fetch featured destinations'})
+    }
+})
 app.get('/destinations/:id', verifyToken, async (req, res) => {
     const { id } = req.params
     const query = { _id: new ObjectId(id) }
