@@ -63,13 +63,13 @@ app.get('/destinations/:id', verifyToken, async (req, res) => {
     res.send(result)
 })
 
-app.post('/destinations', async (req, res) => {
+app.post('/destinations',verifyToken, async (req, res) => {
     // console.log(req.body)
     const newDestination = req.body
     const result = await destinationCollections.insertOne(newDestination)
     res.send(result)
 })
-app.patch('/destinations/:id', async (req, res) => {
+app.patch('/destinations/:id',verifyToken, async (req, res) => {
     const { id } = req.params
     const filter = { _id: new ObjectId(id) }
     // const options = { upsert: true }
@@ -80,7 +80,7 @@ app.patch('/destinations/:id', async (req, res) => {
     const result = await destinationCollections.updateOne(filter, updateDoc);
     res.send(result)
 })
-app.delete('/destinations/:id', async (req, res) => {
+app.delete('/destinations/:id',verifyToken, async (req, res) => {
     const { id } = req.params
     const query = { _id: new ObjectId(id) }
     const result = await destinationCollections.deleteOne(query)
@@ -88,17 +88,17 @@ app.delete('/destinations/:id', async (req, res) => {
 })
 
 
-app.post('/booking', async (req, res) => {
+app.post('/booking',verifyToken, async (req, res) => {
     const data = req.body
     const result = await bookingCollections.insertOne(data)
     res.send(result)
 })
-app.get('/my-bookings/:email', async (req, res) => {
+app.get('/my-bookings/:email',verifyToken, async (req, res) => {
     const { email: emailFromClient } = req.params
     const result = await bookingCollections.find({ email: emailFromClient }).toArray()
     res.send(result)
 })
-app.delete('/my-bookings/:id', async (req, res) => {
+app.delete('/my-bookings/:id',verifyToken, async (req, res) => {
     const { id } = req.params
     const result = await bookingCollections.deleteOne({ _id: id })
     res.send(result)
