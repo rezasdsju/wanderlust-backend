@@ -18,6 +18,11 @@ Backend service for the Wanderlust tour booking platform, built with Node.js and
 - CORS
 - dotenv
 
+
+## Backend API
+
+**Base URL:** https://wanderlust-backend-pqrs.vercel.app/
+
 ## API Endpoints
 
 | Method | Endpoint | Description | Auth |
